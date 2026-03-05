@@ -30,6 +30,11 @@
                 this.autoReloadInterval = 10 * 60 * 1000; // 10 minutes
                 this.jsonFile = 'current_song.json';
 
+                // Timer pour masquer le widget après 10s d'inactivité
+                this.hideDelay = 10 * 1000; // 10 secondes
+                this._hideTimer = null;
+                this._widgetVisible = true;
+
                 // Éléments DOM
                 this.elements = {
                     container: document.getElementById('now-playing-widget'),
@@ -76,7 +81,46 @@
                 );
             }
 
+            // Démarre le timer pour masquer le widget
+            scheduleHide() {
+                if (this._hideTimer) return; // déjà planifié
+                this._hideTimer = setTimeout(() => {
+                    this.hideWidget();
+                }, this.hideDelay);
+            }
+
+            // Annule le timer et s'assure que le widget est visible
+            cancelHide() {
+                if (this._hideTimer) {
+                    clearTimeout(this._hideTimer);
+                    this._hideTimer = null;
+                }
+                if (!this._widgetVisible) {
+                    this.showWidget();
+                }
+            }
+
+            hideWidget() {
+                this._widgetVisible = false;
+                this._hideTimer = null;
+                this.elements.container.classList.add('widget-hidden');
+            }
+
+            showWidget() {
+                this._widgetVisible = true;
+                this.elements.container.classList.remove('widget-hidden');
+            }
+
             async updateDisplay(songData) {
+                const isInactive = !songData || songData.status === 'paused' ||
+                    songData.status === 'closed' || songData.status === 'stopped';
+
+                if (isInactive) {
+                    this.scheduleHide();
+                } else {
+                    this.cancelHide();
+                }
+
                 // Si aucune chanson n'est en lecture
                 if (!songData) {
                     await this.fadeOut();
