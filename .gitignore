@@ -29,3 +29,6 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+#versions releases files
+*.zip
