@@ -1,19 +1,20 @@
-# Build outputs
+# C++ Build outputs
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.exe
+*.tmp
+
+# Common directories
 bin/
 obj/
-*.exe
-*.pdb
+cpp/
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-ENV/
-
-# Generated files
+# Generated data
 current_song.json
+current_song.json.tmp
 temp_*.jpg
 temp_*.jpeg
 temp_*.png
@@ -28,12 +29,3 @@ desktop.ini
 .idea/
 *.swp
 *.swo
-*~
-
-# Temporary documentation (keep only README.md)
-NEXT_STEP.md
-SUCCESS.md
-
-*.dll
-*.exe
-current_song.json

@@ -1,50 +1,44 @@
-# 🔍 Troubleshooting Guide
+# 🔍 Troubleshooting Guide (C++ Edition)
 
 ## ✅ Checking Source Files
 
-If you cloned or downloaded the source code to compile it yourself, make sure you have these main files:
+For the C++ version, ensure you have these core files:
 
 ```
-OBS-StreamMusicViewer/
-├── .gitignore
-├── App.xaml                  ← Base interface
-├── App.xaml.cs
-├── MainWindow.xaml           ← Window design
-├── MainWindow.xaml.cs        ← Music retrieval logic
-├── OBS-StreamMusicViewer.csproj ← CRITICAL - project file
-├── README.md
-├── compile.bat               ← Compilation script
-├── index.html                ← OBS display
-└── style.css                 ← OBS styles
+OSMV-lite/
+├── main.cpp             ← Entry point & Win32 UI
+├── MediaTracker.hpp     ← Media logic (C++/WinRT)
+├── Base64.hpp           ← Image utility
+├── build.bat            ← Compilation script
+├── index.html           ← OBS Frontend
+└── style.css            ← OBS Styling
 ```
 
 ## 🐛 Common Issues & Solutions
 
-### 1. The easiest way (No need to compile!)
-If you encounter compilation errors, skip the command line and simply download the **Release**.
-1. Go to the **Releases** tab on GitHub.
-2. Download the `OBS-StreamMusicViewer.exe` executable or the ZIP file containing the release.
-3. Run the `.exe` file. No development tools or command line required!
+### 1. "build.bat" fails to find Visual Studio
+**Cause**: The script uses `vswhere.exe` to find MSVC. If you have a custom install path or an old version, it might fail.
+**Solution**: Run `build.bat` directly from the **"Developer Command Prompt for VS 2022"** (search for it in your Start menu).
 
-### 2. The "compile.bat" script shows a namespace / missing project error
-**Cause**: The `.csproj` file is not found by the `dotnet` command, or the clone went wrong.
-**Solution**: Make sure you are in the correct folder. You can also download the source code ZIP (`Code → Download ZIP`) from GitHub to ensure you have all files intact.
+### 2. Application launches and closes immediately
+**Cause**: Potential conflict with the Windows Media Session or missing system permissions.
+**Solution**: 
+- Check if another instance is already running in the system tray.
+- Ensure your music player (Spotify/Apple Music) is open and has played at least one song.
 
-### 3. "dotnet is not recognized as a command"
-**Cause**: The .NET SDK is not installed on your computer.
+### 3. OBS widget is blank or shows "Aucune lecture"
+**Cause**: The `current_song.json` file is missing or not updated.
 **Solution**:
-1. Install it from https://dotnet.microsoft.com/download/dotnet
-2. **Restart** your terminal or PC so the environment variable is picked up, then run `compile.bat` again.
+- Ensure `OSMV-Lite-cpp.exe` is running (check system tray).
+- Verify that `index.html` and `OSMV-Lite-cpp.exe` are in the **same folder**.
+- Check if `current_song.json` is being created/updated in that folder.
 
-### 4. The OBS widget shows "Waiting for music..." but music is playing
-**Cause**: The built-in web browser (OBS) or the program (`OBS-StreamMusicViewer.exe`) has a permissions issue, or the music application is not broadcasting the info to Windows.
-**Solution**:
-- Check that the `OBS-StreamMusicViewer.exe` window is correctly detecting the music. If it is, the issue is on the OBS side.
-- Make sure the `index.html` file opened in OBS is located **in the same folder** as `current_song.json`.
-- If a browser source (e.g. Chrome/YouTube) is playing the music, check that "Global Media Controls" are not disabled in your browser settings.
+### 4. Special characters (accents) are not showing correctly
+**Solution**: This was fixed in the latest version by forcing **UTF-8** encoding. Ensure you have recompiled the app using the latest source code.
 
 ## 💡 Support
 
-If your issue persists even with the pre-compiled release, open an **Issue** on GitHub and include:
-- The observed behavior and the music application you are using (Spotify, Apple Music, Browser…)
-- Your Windows version (10 or 11)
+If issues persist, open an **Issue** on GitHub with:
+- Your Windows version.
+- The music player you are using.
+- A screenshot of any error message shown by the application.
