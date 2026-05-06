@@ -3,7 +3,7 @@
 ![Status](https://img.shields.io/badge/status-working-success)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-blue)
 ![Language](https://img.shields.io/badge/Language-C%2B%2B20-orange)
-![Performance](https://img.shields.io/badge/RAM-%3C10MB-green)
+![Performance](https://img.shields.io/badge/RAM-%3C5MB-green)
 
 A high-performance, real-time "Now Playing" widget for OBS. This version is written in native C++ for **minimum resource consumption** (RAM and CPU). It tracks music from Apple Music, Spotify, and other media players using the native Windows Media API.
 
